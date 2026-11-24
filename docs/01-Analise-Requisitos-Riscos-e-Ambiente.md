@@ -1,4 +1,12 @@
-# 📋 Projeto de QA — Cafeteria "Grão & Prosa" (CodeWave Solutions)
+#  Projeto de QA — Cafeteria "Grão & Prosa" (CodeWave Solutions)
+
+**Projeto:** Cafeteria "Grao & Prosa" - CodeWave Solutions  
+**Responsavel de QA:** Kaique Daniel  
+**Instituicao:** SENAI "Roberto Mange" - Unidade Curricular: Teste de Software (TSOF)  
+**Data:** 24/11/2026  
+
+---
+
 
 ## Item 1: Análise de Requisitos e Riscos
 
@@ -20,7 +28,7 @@ flowchart LR
     A -->|"onLogin()"| B
     B -->|"onNew / onEdit"| C
     C -->|"onSave (local state)"| B
-    B -.->|"⚠ NÃO integrado"| D
+    B -.->|"[ALERTA] NÃO integrado"| D
     D --> E
 ```
 
@@ -68,9 +76,9 @@ A API expõe um **CRUD completo** de Produtos via `ModelViewSet` do DRF, registr
 
 | Tela / Componente | Funcionalidades | Observações |
 |-------------------|----------------|-------------|
-| **Login** (`Login.tsx`) | Formulário com campos e-mail e senha; botão "Entrar no painel" | ⚠ **Sem validação real de credenciais** — qualquer input (inclusive vazio) faz login com sucesso. Apenas chama `onLogin()` |
+| **Login** (`Login.tsx`) | Formulário com campos e-mail e senha; botão "Entrar no painel" | [ALERTA] **Sem validação real de credenciais** — qualquer input (inclusive vazio) faz login com sucesso. Apenas chama `onLogin()` |
 | **Home / Dashboard** (`Home.tsx`) | Cards de resumo (total de produtos, estoque total, valor em estoque); tabela de listagem de produtos; busca por nome; filtro por categoria (Todas/Cafés/Bebidas/Salgados/Doces); botões de Editar e Remover por produto; botão "Novo produto" | Busca usa `includes()` case-sensitive. Cálculos: `totalValue = Σ(price × stock)`, `totalStock = Σ(stock)` |
-| **ProductForm** (`ProductForm.tsx`) | Formulário com 4 campos: Nome, Categoria (select), Preço (number, step 0.01), Estoque (number); botões Cancelar e "Salvar produto" | ⚠ **Sem validações no front-end** — permite salvar com campos vazios, preço 0 ou negativo, estoque negativo. Categorias fixas: Cafés, Bebidas, Salgados, Doces |
+| **ProductForm** (`ProductForm.tsx`) | Formulário com 4 campos: Nome, Categoria (select), Preço (number, step 0.01), Estoque (number); botões Cancelar e "Salvar produto" | [ALERTA] **Sem validações no front-end** — permite salvar com campos vazios, preço 0 ou negativo, estoque negativo. Categorias fixas: Cafés, Bebidas, Salgados, Doces |
 
 > [!IMPORTANT]
 > **Achado crítico:** O front-end **NÃO** faz chamadas à API do back-end. Todos os dados são gerenciados em **estado local** (React `useState`) com dados iniciais hardcoded em `App.tsx`. O back-end e o front-end são **sistemas desacoplados e não integrados**.
@@ -79,12 +87,12 @@ A API expõe um **CRUD completo** de Produtos via `ModelViewSet` do DRF, registr
 
 | Funcionalidade (Contexto) | Back-end | Front-end | Status |
 |---------------------------|----------|-----------|--------|
-| Gestão de **Produtos** (CRUD) | ✅ API completa | ✅ CRUD local | ⚠ Sem integração |
-| **Reservas** de mesas | ❌ Não implementado | ❌ Não implementado | 🔴 Ausente |
-| **Pedidos** | ❌ Não implementado | ❌ Não implementado | 🔴 Ausente |
-| **Atendimento** | ❌ Não implementado | ❌ Não implementado | 🔴 Ausente |
-| **Autenticação** real | ❌ Sem auth na API | ⚠ Formulário cosmético | 🔴 Não funcional |
-| **Cadastro de usuários** | ❌ Não implementado | ❌ Não implementado | 🔴 Ausente |
+| Gestão de **Produtos** (CRUD) | [SIM] API completa | [SIM] CRUD local | [ALERTA] Sem integração |
+| **Reservas** de mesas | [NAO] Não implementado | [NAO] Não implementado | [CRITICO] Ausente |
+| **Pedidos** | [NAO] Não implementado | [NAO] Não implementado | [CRITICO] Ausente |
+| **Atendimento** | [NAO] Não implementado | [NAO] Não implementado | [CRITICO] Ausente |
+| **Autenticação** real | [NAO] Sem auth na API | [ALERTA] Formulário cosmético | [CRITICO] Não funcional |
+| **Cadastro de usuários** | [NAO] Não implementado | [NAO] Não implementado | [CRITICO] Ausente |
 
 ---
 
@@ -92,16 +100,16 @@ A API expõe um **CRUD completo** de Produtos via `ModelViewSet` do DRF, registr
 
 | ID | Regra de Negócio | Origem | Validação |
 |----|-----------------|--------|-----------|
-| **RN-01** | O preço do produto deve ser ≥ R$ 0,01 | `models.py` → `MinValueValidator(0.01)` | Apenas no back-end |
-| **RN-02** | O estoque do produto deve ser ≥ 0 (não permite negativo) | `models.py` → `MinValueValidator(0)` | Apenas no back-end |
-| **RN-03** | O nome do produto aceita no máximo 100 caracteres | `models.py` → `max_length=100` | Apenas no back-end |
-| **RN-04** | A categoria do produto aceita no máximo 50 caracteres | `models.py` → `max_length=50` | Apenas no back-end |
-| **RN-05** | O preço tem no máximo 10 dígitos com 2 casas decimais | `models.py` → `max_digits=10, decimal_places=2` | Apenas no back-end |
+| **RN-01** | O preço do produto deve ser ≥ R$ 0,01 | `models.py` -> `MinValueValidator(0.01)` | Apenas no back-end |
+| **RN-02** | O estoque do produto deve ser ≥ 0 (não permite negativo) | `models.py` -> `MinValueValidator(0)` | Apenas no back-end |
+| **RN-03** | O nome do produto aceita no máximo 100 caracteres | `models.py` -> `max_length=100` | Apenas no back-end |
+| **RN-04** | A categoria do produto aceita no máximo 50 caracteres | `models.py` -> `max_length=50` | Apenas no back-end |
+| **RN-05** | O preço tem no máximo 10 dígitos com 2 casas decimais | `models.py` -> `max_digits=10, decimal_places=2` | Apenas no back-end |
 | **RN-06** | As categorias válidas no front-end são: Cafés, Bebidas, Salgados, Doces | `ProductForm.tsx` / `Home.tsx` | Apenas no front-end |
-| **RN-07** | O login deve autenticar o usuário antes de acessar o painel | Regra implícita do contexto | ⚠ Não implementada |
+| **RN-07** | O login deve autenticar o usuário antes de acessar o painel | Regra implícita do contexto | [ALERTA] Não implementada |
 | **RN-08** | Cada produto tem ID único auto-incrementado | `models.py` (BigAutoField) / `App.tsx` (nextId) | Ambos (separados) |
-| **RN-09** | A busca de produtos filtra por nome | `Home.tsx` → `product.name.includes(search)` | Case-sensitive (possível bug) |
-| **RN-10** | Estoque baixo (< 10) é destacado visualmente em cor diferente | `Home.tsx` → cor `#bd704b` | Front-end apenas |
+| **RN-09** | A busca de produtos filtra por nome | `Home.tsx` -> `product.name.includes(search)` | Case-sensitive (possível bug) |
+| **RN-10** | Estoque baixo (< 10) é destacado visualmente em cor diferente | `Home.tsx` -> cor `#bd704b` | Front-end apenas |
 
 ---
 
@@ -111,25 +119,25 @@ A API expõe um **CRUD completo** de Produtos via `ModelViewSet` do DRF, registr
 
 | ID | Risco | Probabilidade | Impacto | Severidade | Mitigação Sugerida |
 |----|-------|---------------|---------|------------|---------------------|
-| **RT-01** | Front-end não integrado ao back-end (dados voláteis em memória) | Confirmado | 🔴 Crítico | **Bloqueante** | Implementar chamadas HTTP (fetch/axios) no front para consumir a API |
-| **RT-02** | Ausência de autenticação/autorização na API (qualquer pessoa pode fazer CRUD) | Confirmado | 🔴 Crítico | **Crítico** | Implementar DRF Token Auth ou JWT |
-| **RT-03** | `SECRET_KEY` hardcoded e `DEBUG=True` no settings de produção | Confirmado | 🔴 Alto | **Crítico** | Usar variáveis de ambiente (`.env`) e `DEBUG=False` em produção |
-| **RT-04** | `ALLOWED_HOSTS = ['*']` e `CORS_ALLOW_ALL_ORIGINS = True` | Confirmado | 🟠 Alto | **Alto** | Restringir a domínios específicos |
-| **RT-05** | Falta de validação no front-end (campos vazios, preço ≤ 0, estoque negativo) | Confirmado | 🟠 Alto | **Alto** | Adicionar validações no formulário antes do submit |
-| **RT-06** | Busca case-sensitive (`includes` sem `.toLowerCase()`) | Confirmado | 🟡 Médio | **Médio** | Usar `name.toLowerCase().includes(search.toLowerCase())` |
-| **RT-07** | SQLite como banco de dados (não escalável para produção) | Confirmado | 🟡 Médio | **Médio** | Migrar para PostgreSQL/MySQL em produção |
-| **RT-08** | Arquivo `tests.py` vazio — zero cobertura de testes automatizados | Confirmado | 🟡 Médio | **Médio** | Implementar suíte de testes (unitários + integração) |
-| **RT-09** | Dados iniciais hardcoded em `App.tsx` divergem dos dados do `popular_banco.py` | Confirmado | 🟡 Médio | **Baixo** | Unificar fonte de dados; front deve consumir API |
+| **RT-01** | Front-end não integrado ao back-end (dados voláteis em memória) | Confirmado | [CRITICO] Crítico | **Bloqueante** | Implementar chamadas HTTP (fetch/axios) no front para consumir a API |
+| **RT-02** | Ausência de autenticação/autorização na API (qualquer pessoa pode fazer CRUD) | Confirmado | [CRITICO] Crítico | **Crítico** | Implementar DRF Token Auth ou JWT |
+| **RT-03** | `SECRET_KEY` hardcoded e `DEBUG=True` no settings de produção | Confirmado | [CRITICO] Alto | **Crítico** | Usar variáveis de ambiente (`.env`) e `DEBUG=False` em produção |
+| **RT-04** | `ALLOWED_HOSTS = ['*']` e `CORS_ALLOW_ALL_ORIGINS = True` | Confirmado | [ALTO] Alto | **Alto** | Restringir a domínios específicos |
+| **RT-05** | Falta de validação no front-end (campos vazios, preço ≤ 0, estoque negativo) | Confirmado | [ALTO] Alto | **Alto** | Adicionar validações no formulário antes do submit |
+| **RT-06** | Busca case-sensitive (`includes` sem `.toLowerCase()`) | Confirmado | [MEDIO] Médio | **Médio** | Usar `name.toLowerCase().includes(search.toLowerCase())` |
+| **RT-07** | SQLite como banco de dados (não escalável para produção) | Confirmado | [MEDIO] Médio | **Médio** | Migrar para PostgreSQL/MySQL em produção |
+| **RT-08** | Arquivo `tests.py` vazio — zero cobertura de testes automatizados | Confirmado | [MEDIO] Médio | **Médio** | Implementar suíte de testes (unitários + integração) |
+| **RT-09** | Dados iniciais hardcoded em `App.tsx` divergem dos dados do `popular_banco.py` | Confirmado | [MEDIO] Médio | **Baixo** | Unificar fonte de dados; front deve consumir API |
 
 #### 1.4.2 Riscos de Negócio
 
 | ID | Risco | Probabilidade | Impacto | Severidade |
 |----|-------|---------------|---------|------------|
-| **RN-R01** | Funcionalidades de **reservas**, **pedidos** e **atendimento** (descritas no contexto) estão completamente ausentes | Confirmado | 🔴 Crítico | **Bloqueante** |
-| **RN-R02** | Login cosmético permite acesso irrestrito ao painel sem validação de credenciais | Confirmado | 🔴 Crítico | **Crítico** |
-| **RN-R03** | Produto pode ser cadastrado com nome vazio e preço/estoque inválidos (via front-end) | Confirmado | 🟠 Alto | **Alto** |
-| **RN-R04** | Dados de produtos são perdidos ao recarregar a página (estado React local) | Confirmado | 🔴 Crítico | **Crítico** |
-| **RN-R05** | Sem controle de concorrência — dois acessos simultâneos podem sobrescrever dados | Provável | 🟡 Médio | **Médio** |
+| **RN-R01** | Funcionalidades de **reservas**, **pedidos** e **atendimento** (descritas no contexto) estão completamente ausentes | Confirmado | [CRITICO] Crítico | **Bloqueante** |
+| **RN-R02** | Login cosmético permite acesso irrestrito ao painel sem validação de credenciais | Confirmado | [CRITICO] Crítico | **Crítico** |
+| **RN-R03** | Produto pode ser cadastrado com nome vazio e preço/estoque inválidos (via front-end) | Confirmado | [ALTO] Alto | **Alto** |
+| **RN-R04** | Dados de produtos são perdidos ao recarregar a página (estado React local) | Confirmado | [CRITICO] Crítico | **Crítico** |
+| **RN-R05** | Sem controle de concorrência — dois acessos simultâneos podem sobrescrever dados | Provável | [MEDIO] Médio | **Médio** |
 
 ---
 
@@ -139,22 +147,22 @@ A API expõe um **CRUD completo** de Produtos via `ModelViewSet` do DRF, registr
 
 ```mermaid
 flowchart TD
-    A["🔬 Testes Unitários"] --> B["🔗 Testes de Integração"]
-    B --> C["🖥️ Testes de Sistema (E2E)"]
-    C --> D["✅ Testes de Aceitação"]
+    A[" Testes Unitários"] --> B[" Testes de Integração"]
+    B --> C[" Testes de Sistema (E2E)"]
+    C --> D["[SIM] Testes de Aceitação"]
     
     A -.- A1["Back-end: Models, Serializers, Validators\nFront-end: Componentes isolados"]
     B -.- B1["Back-end: Views + DB (API endpoints)\nFront-end ↔ Back-end: Integração HTTP"]
-    C -.- C1["Fluxos completos via browser\n(Login → CRUD → Logout)"]
+    C -.- C1["Fluxos completos via browser\n(Login -> CRUD -> Logout)"]
     D -.- D1["Validação das regras de negócio\nconforme requisitos do cliente"]
 ```
 
 | Nível | Escopo | Ferramentas Sugeridas | Prioridade |
 |-------|--------|----------------------|------------|
-| **Unitário** | Model `Product` (validators), Serializer, funções JS/TS isoladas | `pytest` + `pytest-django` (back), `Vitest` (front) | 🟢 Alta |
-| **Integração (API)** | Endpoints REST (CRUD completo), status codes, payloads | `pytest` + DRF `APIClient`, **Postman/Insomnia** (manual) | 🔴 Crítica |
-| **Sistema / E2E** | Fluxos de usuário completos no browser | **Cypress** ou **Playwright** | 🟢 Alta |
-| **Aceitação** | Requisitos do negócio (reservas, pedidos, etc.) | Manual + checklists | 🟡 Média (limitada por ausência de funcionalidades) |
+| **Unitário** | Model `Product` (validators), Serializer, funções JS/TS isoladas | `pytest` + `pytest-django` (back), `Vitest` (front) | [BAIXO] Alta |
+| **Integração (API)** | Endpoints REST (CRUD completo), status codes, payloads | `pytest` + DRF `APIClient`, **Postman/Insomnia** (manual) | [CRITICO] Crítica |
+| **Sistema / E2E** | Fluxos de usuário completos no browser | **Cypress** ou **Playwright** | [BAIXO] Alta |
+| **Aceitação** | Requisitos do negócio (reservas, pedidos, etc.) | Manual + checklists | [MEDIO] Média (limitada por ausência de funcionalidades) |
 
 #### 1.5.2 Técnicas de Teste
 
@@ -164,22 +172,22 @@ flowchart TD
 | **Caixa-Branca** (Estrutural) | Cobertura de código das views, models, serializers | Verificar que todos os branches do `handleSubmit` são exercitados |
 | **Particionamento de Equivalência** | Dividir inputs em classes válidas e inválidas | Preço: classe válida (0.01–99999999.99), inválida (≤0, letras, vazio) |
 | **Análise de Valor Limite** | Testar nos limites exatos dos campos | `name`: 100 chars (ok) vs 101 chars (falha); `price`: 0.00 vs 0.01; `stock`: -1 vs 0 |
-| **Tabela de Decisão** | Combinações de entradas do formulário de produto | Nome vazio + preço válido → erro; Nome ok + preço 0 → erro; Tudo ok → sucesso |
-| **Teste de Estado** | Transições de tela no front-end | Login → Home → New → Home → Edit → Home |
+| **Tabela de Decisão** | Combinações de entradas do formulário de produto | Nome vazio + preço válido -> erro; Nome ok + preço 0 -> erro; Tudo ok -> sucesso |
+| **Teste de Estado** | Transições de tela no front-end | Login -> Home -> New -> Home -> Edit -> Home |
 | **Teste Exploratório** | Descoberta de bugs não previstos | Navegar livremente, tentar ações inesperadas |
 
 #### 1.5.3 Matriz de Cobertura (Técnica × Funcionalidade)
 
 | Funcionalidade | Caixa-Preta | Valor Limite | Part. Equivalência | Tabela Decisão | Exploratório |
 |---------------|-------------|-------------|--------------------|--------------------|-------------|
-| Login | ✅ | — | ✅ | ✅ | ✅ |
-| Listar Produtos | ✅ | — | — | — | ✅ |
-| Busca/Filtro | ✅ | ✅ | ✅ | — | ✅ |
-| Criar Produto | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Editar Produto | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Excluir Produto | ✅ | — | — | — | ✅ |
-| API CRUD (Back) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Cards de Resumo | ✅ | — | — | — | ✅ |
+| Login | [SIM] | — | [SIM] | [SIM] | [SIM] |
+| Listar Produtos | [SIM] | — | — | — | [SIM] |
+| Busca/Filtro | [SIM] | [SIM] | [SIM] | — | [SIM] |
+| Criar Produto | [SIM] | [SIM] | [SIM] | [SIM] | [SIM] |
+| Editar Produto | [SIM] | [SIM] | [SIM] | [SIM] | [SIM] |
+| Excluir Produto | [SIM] | — | — | — | [SIM] |
+| API CRUD (Back) | [SIM] | [SIM] | [SIM] | [SIM] | [SIM] |
+| Cards de Resumo | [SIM] | — | — | — | [SIM] |
 
 ---
 
@@ -299,7 +307,7 @@ npm run dev
 #### Verificação rápida
 
 1. Abra `http://localhost:5173/` no navegador
-2. A tela de **Login** deve aparecer (tema marrom/café com ☕)
+2. A tela de **Login** deve aparecer (tema marrom/café com )
 3. Clique em "Entrar no painel" (qualquer input funciona)
 4. O **Dashboard** deve exibir 5 produtos pré-carregados
 
@@ -311,17 +319,17 @@ npm run dev
 
 | Configuração | Valor Atual | Risco | Ação para Produção |
 |-------------|-------------|-------|---------------------|
-| `SECRET_KEY` | Hardcoded (insecure) | 🔴 Crítico | Mover para variável de ambiente |
-| `DEBUG` | `True` | 🔴 Crítico | Definir como `False` |
-| `ALLOWED_HOSTS` | `['*']` | 🟠 Alto | Restringir aos domínios reais |
-| `CORS_ALLOW_ALL_ORIGINS` | `True` | 🟠 Alto | Usar `CORS_ALLOWED_ORIGINS` com lista explícita |
-| `DATABASES` | SQLite (arquivo local) | 🟡 Médio | Migrar para PostgreSQL |
+| `SECRET_KEY` | Hardcoded (insecure) | [CRITICO] Crítico | Mover para variável de ambiente |
+| `DEBUG` | `True` | [CRITICO] Crítico | Definir como `False` |
+| `ALLOWED_HOSTS` | `['*']` | [ALTO] Alto | Restringir aos domínios reais |
+| `CORS_ALLOW_ALL_ORIGINS` | `True` | [ALTO] Alto | Usar `CORS_ALLOWED_ORIGINS` com lista explícita |
+| `DATABASES` | SQLite (arquivo local) | [MEDIO] Médio | Migrar para PostgreSQL |
 
 #### Front-end
 
 | Configuração | Valor Atual | Observação |
 |-------------|-------------|------------|
-| URL da API | Nenhuma configurada | ⚠ O front-end não faz chamadas ao back-end |
+| URL da API | Nenhuma configurada | [ALERTA] O front-end não faz chamadas ao back-end |
 | Porta dev server | 5173 (padrão Vite) | Configurável em `vite.config.ts` |
 
 ---
@@ -362,7 +370,7 @@ npm run dev
 
 ```mermaid
 flowchart TD
-    subgraph Ambiente["🖥️ Ambiente Local de QA"]
+    subgraph Ambiente[" Ambiente Local de QA"]
         subgraph Back["Back-end :8000"]
             API["Django + DRF\nAPI REST"]
             DB["SQLite\ndb.sqlite3"]
@@ -381,7 +389,7 @@ flowchart TD
     PM -->|"HTTP Requests"| API
     PT -->|"APIClient"| API
     CY -->|"Browser automation"| UI
-    UI -.->|"⚠ SEM integração"| API
+    UI -.->|"[ALERTA] SEM integração"| API
 ```
 
 ---

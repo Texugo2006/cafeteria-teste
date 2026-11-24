@@ -1,4 +1,12 @@
-# 🐞 Item 5 — Registro de Defeitos (Bugs) e Relatório Técnico Final de QA
+#  Item 5 — Registro de Defeitos (Bugs) e Relatório Técnico Final de QA
+
+**Projeto:** Cafeteria "Grao & Prosa" - CodeWave Solutions  
+**Responsavel de QA:** Kaique Daniel  
+**Instituicao:** SENAI "Roberto Mange" - Unidade Curricular: Teste de Software (TSOF)  
+**Data:** 24/11/2026  
+
+---
+
 
 ## Projeto: Cafeteria "Grão & Prosa" — CodeWave Solutions
 **Responsável:** Equipe de Qualidade de Software (QA Sênior)  
@@ -36,15 +44,15 @@ Com base na inspeção de código e execução nos repositórios, foram consolid
 ### [BUG-001] Front-end não consome API Back-end e perde dados ao recarregar a tela
 
 * **Módulo:** Front-end (`App.tsx`, `Home.tsx`, `ProductForm.tsx`)
-* **Severidade:** 🔴 **Bloqueador** (Impede o uso do sistema integrado em produção)
-* **Prioridade:** 🔴 **Alta**
+* **Severidade:** [CRITICO] **Bloqueador** (Impede o uso do sistema integrado em produção)
+* **Prioridade:** [CRITICO] **Alta**
 * **Ambiente:** Google Chrome / Windows 11 / Vite Dev Server
 * **Pré-condições:** Aplicação em execução.
 * **Passos para Reproduzir:**
   1. Efetuar login no painel.
-  2. Clicar em "＋ Novo produto".
+  2. Clicar em "+ Novo produto".
   3. Preencher os dados de um novo item (ex.: "Bolo Caseiro", R$ 8,00, Estoque: 10).
-  4. Clicar em "Salvar produto →".
+  4. Clicar em "Salvar produto ->".
   5. Notar que o produto é exibido na lista.
   6. Pressionar a tecla `F5` para atualizar o navegador.
 * **Resultado Atual:** O produto recém-cadastrado é completamente perdido e a listagem retorna aos 5 itens estáticos hardcoded em `App.tsx`. Nenhuma requisição HTTP foi enviada para `http://127.0.0.1:8000/api/products/`.
@@ -55,11 +63,11 @@ Com base na inspeção de código e execução nos repositórios, foram consolid
 ### [BUG-002] Tela de Login permite acesso ao painel com campos vazios ou inválidos
 
 * **Módulo:** Front-end (`Login.tsx`)
-* **Severidade:** 🔴 **Crítico** (Falha de segurança e controle de acesso)
-* **Prioridade:** 🔴 **Alta**
+* **Severidade:** [CRITICO] **Crítico** (Falha de segurança e controle de acesso)
+* **Prioridade:** [CRITICO] **Alta**
 * **Passos para Reproduzir:**
   1. Acessar a tela inicial (`/`).
-  2. Sem preencher nada nos campos de e-mail e senha, clicar diretamente no botão "Entrar no painel →".
+  2. Sem preencher nada nos campos de e-mail e senha, clicar diretamente no botão "Entrar no painel ->".
 * **Resultado Atual:** A função `onLogin()` é disparada incondicionalmente, liberando acesso irrestrito ao painel administrativo.
 * **Resultado Esperado:** O sistema deve validar preenchimento obrigatório e autenticar as credenciais no back-end via Token/JWT antes de liberar a rota.
 
@@ -68,14 +76,14 @@ Com base na inspeção de código e execução nos repositórios, foram consolid
 ### [BUG-003] Formulário de produto aceita valores negativos, nulos e nome vazio
 
 * **Módulo:** Front-end (`ProductForm.tsx`)
-* **Severidade:** 🟠 **Maior** (Consistência de dados)
-* **Prioridade:** 🟠 **Alta**
+* **Severidade:** [ALTO] **Maior** (Consistência de dados)
+* **Prioridade:** [ALTO] **Alta**
 * **Passos para Reproduzir:**
   1. Acessar o formulário "Novo produto".
   2. Deixar o campo "Nome" vazio.
   3. Informar preço `-15.00` ou `0`.
   4. Informar estoque `-10`.
-  5. Clicar em "Salvar produto →".
+  5. Clicar em "Salvar produto ->".
 * **Resultado Atual:** O formulário cria o item inválido em tela sem nenhuma barreira de validação no lado cliente.
 * **Resultado Esperado:** Validação nos campos impedindo submissão de valores que violam as regras do back-end (RN-01, RN-02 e RN-03).
 
@@ -84,8 +92,8 @@ Com base na inspeção de código e execução nos repositórios, foram consolid
 ### [BUG-004] Filtro de busca na tabela é estritamente sensível a maiúsculas/minúsculas (Case-Sensitive)
 
 * **Módulo:** Front-end (`Home.tsx`, linha 23)
-* **Severidade:** 🟡 **Menor** (Usabilidade)
-* **Prioridade:** 🟡 **Média**
+* **Severidade:** [MEDIO] **Menor** (Usabilidade)
+* **Prioridade:** [MEDIO] **Média**
 * **Código Fonte Afetado:**
   ```typescript
   // Trecho com bug em Home.tsx:
@@ -101,8 +109,8 @@ Com base na inspeção de código e execução nos repositórios, foram consolid
 ### [BUG-005] Back-end expõe chaves e configurações críticas para produção
 
 * **Módulo:** Back-end (`cafeteria/settings.py`)
-* **Severidade:** 🔴 **Crítico** (Vulnerabilidade de Infraestrutura)
-* **Prioridade:** 🔴 **Alta**
+* **Severidade:** [CRITICO] **Crítico** (Vulnerabilidade de Infraestrutura)
+* **Prioridade:** [CRITICO] **Alta**
 * **Descrição Técnica:**
   * `SECRET_KEY` está declarada em texto plano no repositório.
   * `DEBUG = True` mantido ativo.

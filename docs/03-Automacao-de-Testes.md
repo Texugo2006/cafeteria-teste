@@ -1,4 +1,12 @@
-# 🤖 Item 4 — Automação de Testes (Diferencial / Desejável)
+#  Item 4 — Automação de Testes (Diferencial / Desejável)
+
+**Projeto:** Cafeteria "Grao & Prosa" - CodeWave Solutions  
+**Responsavel de QA:** Kaique Daniel  
+**Instituicao:** SENAI "Roberto Mange" - Unidade Curricular: Teste de Software (TSOF)  
+**Data:** 24/11/2026  
+
+---
+
 
 ## Projeto: Cafeteria "Grão & Prosa" — CodeWave Solutions
 

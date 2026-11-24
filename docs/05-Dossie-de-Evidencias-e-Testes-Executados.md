@@ -1,4 +1,12 @@
-# 📸 Dossiê de Evidências e Testes Executados (QA)
+#  Dossiê de Evidências e Testes Executados (QA)
+
+**Projeto:** Cafeteria "Grao & Prosa" - CodeWave Solutions  
+**Responsavel de QA:** Kaique Daniel  
+**Instituicao:** SENAI "Roberto Mange" - Unidade Curricular: Teste de Software (TSOF)  
+**Data:** 24/11/2026  
+
+---
+
 
 **Projeto:** Cafeteria "Grão & Prosa" — CodeWave Solutions  
 **Responsável:** Engenharia de Garantia da Qualidade (QA)  
@@ -117,7 +125,7 @@ A suíte oficial do Cypress (`cypress/e2e/cafeteria_fluxos.cy.ts`) foi executada
 ---
 
 ### Evidência 04 — Tela de Adicionar Novo Produto
-* **Cenário:** Abertura do formulário de cadastro através do botão "＋ Novo produto".
+* **Cenário:** Abertura do formulário de cadastro através do botão "+ Novo produto".
 * **Arquivo:** [04_formulario_novo_produto.png](file:///c:/Users/kaique.daniel_superl/Downloads/Avaliação%20TSOF/evidencias/04_formulario_novo_produto.png)
 
 ![04_formulario_novo_produto](/C:/Users/kaique.daniel_superl/.gemini/antigravity/brain/0c69e8d2-83ea-4862-b57f-941f1bc23b26/evidencias/04_formulario_novo_produto.png)
@@ -142,7 +150,7 @@ A suíte oficial do Cypress (`cypress/e2e/cafeteria_fluxos.cy.ts`) foi executada
 ---
 
 ### Evidência 07 — Formulário de Edição de Produto
-* **Cenário:** Clique no ícone de lápis ✎ para editar um produto já cadastrado.
+* **Cenário:** Clique no ícone de lápis [Editar] para editar um produto já cadastrado.
 * **Arquivo:** [07_formulario_edicao_produto.png](file:///c:/Users/kaique.daniel_superl/Downloads/Avaliação%20TSOF/evidencias/07_formulario_edicao_produto.png)
 
 ![07_formulario_edicao_produto](/C:/Users/kaique.daniel_superl/.gemini/antigravity/brain/0c69e8d2-83ea-4862-b57f-941f1bc23b26/evidencias/07_formulario_edicao_produto.png)
@@ -158,7 +166,7 @@ A suíte oficial do Cypress (`cypress/e2e/cafeteria_fluxos.cy.ts`) foi executada
 ---
 
 ### Evidência 09 — Exclusão de Produto da Listagem
-* **Cenário:** Remoção de item através do botão de lixeira/delete ⌫.
+* **Cenário:** Remoção de item através do botão de lixeira/delete [Remover].
 * **Resultado:** O item foi retirado da listagem e o contador foi decrementado.
 * **Arquivo:** [09_produto_excluido.png](file:///c:/Users/kaique.daniel_superl/Downloads/Avaliação%20TSOF/evidencias/09_produto_excluido.png)
 
